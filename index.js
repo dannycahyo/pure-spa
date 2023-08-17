@@ -1,21 +1,40 @@
 const rootElement = document.getElementById("root");
 
-const renderHomePage = () => {
-  const homeHeading = document.createElement("h1");
-  homeHeading.textContent = "Hello From Home Page";
-
-  const productMenuButton = document.createElement("button");
-  productMenuButton.textContent = "Go to Product Page";
-  productMenuButton.addEventListener("click", () => {
-    window.history.pushState(null, "Product", "/product");
-    handlePageChange();
-  });
-
-  const homePageElement = document.createElement("div");
-  homePageElement.append(productMenuButton, homeHeading);
-
-  rootElement.append(homePageElement);
+const utils = {
+  compareArray(firstArray, secondArray) {
+    firstArray.length === secondArray.length &&
+      firstArray.every((element, index) => element === secondArray[index]);
+  },
 };
+
+let state = {
+  pathURLName: window.location.pathname,
+  productData: undefined,
+};
+
+function onStateChange(prevState, nextState) {
+  if (prevState.pathURLName !== nextState.pathURLName) {
+    window.history.pushState({}, "", nextState.pathURLName);
+  }
+
+  if (nextState.pathURLName === "/product" && !nextState.productData) {
+    getProductData()
+      .then((data) => {
+        setState({ productData: data.products });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+}
+
+function setState(newState) {
+  const prevState = { ...state };
+  const updatedState = { ...prevState, ...newState };
+  state = updatedState;
+  onStateChange(prevState, updatedState);
+  renderElement();
+}
 
 const getProductData = async () => {
   try {
@@ -27,42 +46,68 @@ const getProductData = async () => {
   }
 };
 
-const renderProductPage = () => {
+const HomePage = () => {
+  const homeHeading = document.createElement("h1");
+  homeHeading.textContent = "Hello From Home Page";
+
+  const productMenuButton = document.createElement("button");
+  productMenuButton.textContent = "Go to Product Page";
+  productMenuButton.addEventListener("click", () => {
+    setState({ pathURLName: "/product" });
+  });
+
+  const homePageElement = document.createElement("div");
+  homePageElement.append(productMenuButton, homeHeading);
+
+  return homePageElement;
+};
+
+const ProductPage = () => {
   const productHeading = document.createElement("h1");
   productHeading.textContent = "Hello From Product Page";
 
   const homeMenuButton = document.createElement("button");
   homeMenuButton.textContent = "Go to Home Page";
   homeMenuButton.addEventListener("click", () => {
-    window.history.pushState(null, "Home", "/");
-    handlePageChange();
+    setState({ pathURLName: "/" });
   });
 
   const productList = document.createElement("ul");
-  const productDataPromise = getProductData();
 
-  productDataPromise.then((data) =>
-    data.products.forEach((product) => {
-      const productElement = document.createElement("li");
-      productElement.textContent = product.title;
-      productList.append(productElement);
-    }),
-  );
+  if (state.productData) {
+    state.productData.forEach((product) => {
+      const productItem = document.createElement("li");
+      productItem.textContent = product.title;
+      productList.appendChild(productItem);
+    });
+  }
 
   const productPageElement = document.createElement("div");
   productPageElement.append(homeMenuButton, productHeading, productList);
 
-  rootElement.append(productPageElement);
+  return productPageElement;
 };
 
-function handlePageChange() {
-  if (window.location.pathname === "/") {
-    rootElement.innerHTML = "";
-    renderHomePage();
-  } else if (window.location.pathname === "/product") {
-    rootElement.innerHTML = "";
-    renderProductPage();
+function App() {
+  const homePage = HomePage();
+  const productPage = ProductPage();
+
+  console.log(state);
+
+  switch (state.pathURLName) {
+    case "/":
+      return homePage;
+    case "/product":
+      return productPage;
+    default:
+      return homePage;
   }
 }
 
-handlePageChange();
+function renderElement() {
+  const app = App();
+  rootElement.innerHTML = "";
+  rootElement.append(app);
+}
+
+renderElement();
