@@ -17,11 +17,6 @@ const renderHomePage = () => {
   rootElement.append(homePageElement);
 };
 
-/*
-  git config --global user.email "you@example.com"
-  git config --global user.name "Your Name"
-*/
-
 const getProductData = async () => {
   try {
     const response = await fetch("https://dummyjson.com/products");
