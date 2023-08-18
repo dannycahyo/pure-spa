@@ -1,4 +1,5 @@
 import HomePage from "./components/HomePage";
+import Navigation from "./components/Navigation";
 import ProductPage from "./components/ProductPage";
 
 import { getProductData } from "./fetcher/getProductData";
@@ -34,6 +35,7 @@ function setState(newState) {
 }
 
 function App() {
+  const navigationMenu = Navigation();
   const homePage = HomePage({
     onNavigetoProduct: () => setState({ pathURLName: "/product" }),
   });
@@ -42,14 +44,19 @@ function App() {
     onNavigateToHomePage: () => setState({ pathURLName: "/" }),
   });
 
+  const app = document.createElement("div");
+  app.append(navigationMenu);
+
   switch (state.pathURLName) {
     case "/":
-      return homePage;
+      app.append(homePage);
+      break;
     case "/product":
-      return productPage;
-    default:
-      return homePage;
+      app.append(productPage);
+      break;
   }
+
+  return app;
 }
 
 setState({ pathURLName: window.location.pathname });
