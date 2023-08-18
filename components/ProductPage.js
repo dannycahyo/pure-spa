@@ -1,25 +1,33 @@
+import NavigationMenu from "./Navigation";
+
 const ProductPage = (props) => {
+  const { onNavigateToHomePage, data } = props;
   const productHeading = document.createElement("h1");
   productHeading.textContent = "Hello From Product Page";
 
   const homeMenuButton = document.createElement("button");
   homeMenuButton.textContent = "Go to Home Page";
   homeMenuButton.addEventListener("click", () => {
-    props.onNavigateToHomePage();
+    onNavigateToHomePage();
   });
 
   const productList = document.createElement("ul");
 
-  if (props.productData) {
-    props.productData.forEach((product) => {
-      const productItem = document.createElement("li");
-      productItem.textContent = product.title;
-      productList.appendChild(productItem);
-    });
-  }
+  data.products?.forEach((product) => {
+    const productItem = document.createElement("li");
+    productItem.textContent = product.title;
+    productList.appendChild(productItem);
+  });
+
+  const menuElement = NavigationMenu();
 
   const productPageElement = document.createElement("div");
-  productPageElement.append(homeMenuButton, productHeading, productList);
+  productPageElement.append(
+    menuElement,
+    homeMenuButton,
+    productHeading,
+    productList,
+  );
 
   return productPageElement;
 };
