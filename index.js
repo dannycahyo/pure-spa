@@ -1,70 +1,20 @@
-import HomePage from "./components/HomePage";
-import Navigation from "./components/Navigation";
-import ProductPage from "./components/ProductPage";
-
-import { getProductData } from "./fetcher/getProductData";
+import Router from "./routes/Router";
+import { routes } from "./routes/routes";
 
 const rootElement = document.getElementById("root");
 
-let state = {
-  pathURLName: undefined,
-  productData: [],
+function renderComponent(component) {
+  rootElement.innerHTML = "";
+  rootElement.append(component);
+}
+
+const props = {
+  onNavigateToProductPage: () => {
+    router.router.push("/product");
+  },
+  onNavigateToHomePage: () => router.router.push("/"),
 };
 
-function onStateChange(prevState, nextState) {
-  if (prevState.pathURLName !== nextState.pathURLName) {
-    window.history.pushState({}, "", nextState.pathURLName);
-    if (nextState.pathURLName === "/product") {
-      getProductData()
-        .then((data) => {
-          setState({ productData: data.products });
-        })
-        .catch((error) => {
-          throw new Error(error);
-        });
-    }
-  }
-}
+const router = Router(routes, renderComponent, props);
 
-function setState(newState) {
-  const prevState = { ...state };
-  const updatedState = { ...prevState, ...newState };
-  state = updatedState;
-  onStateChange(prevState, updatedState);
-  renderElement();
-}
-
-function App() {
-  const navigationMenu = Navigation();
-  const homePage = HomePage({
-    onNavigetoProduct: () => setState({ pathURLName: "/product" }),
-  });
-  const productPage = ProductPage({
-    productData: state.productData,
-    onNavigateToHomePage: () => setState({ pathURLName: "/" }),
-  });
-
-  const app = document.createElement("div");
-  app.append(navigationMenu);
-
-  switch (state.pathURLName) {
-    case "/":
-      app.append(homePage);
-      break;
-    case "/product":
-      app.append(productPage);
-      break;
-  }
-
-  return app;
-}
-
-setState({ pathURLName: window.location.pathname });
-
-function renderElement() {
-  const app = App();
-  rootElement.innerHTML = "";
-  rootElement.append(app);
-}
-
-renderElement();
+router.render();
