@@ -61,6 +61,14 @@ app.get("/product", (req, res) => {
   serveFile(req, res, "index.html");
 });
 
+app.get("/about", (req, res) => {
+  serveFile(req, res, "pages/about.html");
+});
+
+app.get("/portfolio", (req, res) => {
+  serveFile(req, res, "pages/portfolio.html");
+});
+
 app.get("*", (req, res) => {
   serveFile(req, res, req.url);
 });
