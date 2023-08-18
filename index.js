@@ -1,3 +1,8 @@
+import HomePage from "./components/HomePage";
+import ProductPage from "./components/ProductPage";
+
+import { getProductData } from "./fetcher/getProductData";
+
 const rootElement = document.getElementById("root");
 
 let state = {
@@ -14,7 +19,7 @@ function onStateChange(prevState, nextState) {
           setState({ productData: data.products });
         })
         .catch((error) => {
-          console.log(error);
+          throw new Error(error);
         });
     }
   }
@@ -28,63 +33,14 @@ function setState(newState) {
   renderElement();
 }
 
-const getProductData = async () => {
-  try {
-    const response = await fetch("https://dummyjson.com/products");
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-
-const HomePage = () => {
-  const homeHeading = document.createElement("h1");
-  homeHeading.textContent = "Hello From Home Page";
-
-  const productMenuButton = document.createElement("button");
-  productMenuButton.textContent = "Go to Product Page";
-  productMenuButton.addEventListener("click", () => {
-    setState({ pathURLName: "/product" });
-  });
-
-  const homePageElement = document.createElement("div");
-  homePageElement.append(productMenuButton, homeHeading);
-
-  return homePageElement;
-};
-
-const ProductPage = () => {
-  const productHeading = document.createElement("h1");
-  productHeading.textContent = "Hello From Product Page";
-
-  const homeMenuButton = document.createElement("button");
-  homeMenuButton.textContent = "Go to Home Page";
-  homeMenuButton.addEventListener("click", () => {
-    setState({ pathURLName: "/" });
-  });
-
-  const productList = document.createElement("ul");
-
-  if (state.productData) {
-    state.productData.forEach((product) => {
-      const productItem = document.createElement("li");
-      productItem.textContent = product.title;
-      productList.appendChild(productItem);
-    });
-  }
-
-  const productPageElement = document.createElement("div");
-  productPageElement.append(homeMenuButton, productHeading, productList);
-
-  return productPageElement;
-};
-
 function App() {
-  const homePage = HomePage();
-  const productPage = ProductPage();
-
-  console.log(state);
+  const homePage = HomePage({
+    onNavigetoProduct: () => setState({ pathURLName: "/product" }),
+  });
+  const productPage = ProductPage({
+    productData: state.productData,
+    onNavigateToHomePage: () => setState({ pathURLName: "/" }),
+  });
 
   switch (state.pathURLName) {
     case "/":
