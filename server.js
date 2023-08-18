@@ -5,9 +5,15 @@ const path = require("path");
 const PORT = 3000;
 
 const server = http.createServer((req, res) => {
-  const filePath =
+  let filePath =
     req.url === "/" || req.url === "/product" ? "index.html" : req.url;
-  const fileExtension = path.extname(filePath);
+  let fileExtension = path.extname(filePath);
+
+  // If no extension, assume it's a .js file, this one for handling esm modules
+  if (!fileExtension) {
+    filePath += ".js";
+    fileExtension = ".js";
+  }
 
   let contentType;
 
@@ -17,6 +23,21 @@ const server = http.createServer((req, res) => {
       break;
     case ".html":
       contentType = "text/html";
+      break;
+    case ".css":
+      contentType = "text/css";
+      break;
+    case ".json":
+      contentType = "application/json";
+      break;
+    case ".png":
+      contentType = "image/png";
+      break;
+    case ".jpg":
+      contentType = "image/jpg";
+      break;
+    case ".icon":
+      contentType = "image/x-icon";
       break;
     default:
       contentType = "text/html";
