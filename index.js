@@ -1,30 +1,22 @@
 const rootElement = document.getElementById("root");
 
-const utils = {
-  compareArray(firstArray, secondArray) {
-    firstArray.length === secondArray.length &&
-      firstArray.every((element, index) => element === secondArray[index]);
-  },
-};
-
 let state = {
-  pathURLName: window.location.pathname,
-  productData: undefined,
+  pathURLName: undefined,
+  productData: [],
 };
 
 function onStateChange(prevState, nextState) {
   if (prevState.pathURLName !== nextState.pathURLName) {
     window.history.pushState({}, "", nextState.pathURLName);
-  }
-
-  if (nextState.pathURLName === "/product" && !nextState.productData) {
-    getProductData()
-      .then((data) => {
-        setState({ productData: data.products });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (nextState.pathURLName === "/product") {
+      getProductData()
+        .then((data) => {
+          setState({ productData: data.products });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }
 }
 
@@ -103,6 +95,8 @@ function App() {
       return homePage;
   }
 }
+
+setState({ pathURLName: window.location.pathname });
 
 function renderElement() {
   const app = App();
