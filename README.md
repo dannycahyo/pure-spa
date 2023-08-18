@@ -10,7 +10,7 @@ This is the main HTML file that serves as the entry point to your single-page ap
 
 ### 2. `index.js`
 
-This JavaScript file contains the logic for handling the DOM (Document Object Model) and adding interactivity to your web app. It uses the `history.pushState` method to manage navigation between the home and product pages without reloading the entire page.
+This JavaScript file contains the logic for handling the DOM (Document Object Model) and adding interactivity to your web app.
 
 ### 3. `server.js`
 
