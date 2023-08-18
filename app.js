@@ -1,15 +1,14 @@
-const http = require("http");
+const express = require("express");
 const fs = require("fs");
 const path = require("path");
 
+const app = express();
 const PORT = 3000;
 
-const server = http.createServer((req, res) => {
-  let filePath =
-    req.url === "/" || req.url === "/product" ? "index.html" : req.url;
+function serveFile(req, res, filePath) {
   let fileExtension = path.extname(filePath);
 
-  // If no extension, assume it's a .js file, this one for handling esm modules
+  // If no extension, assume it's a .js file, this one for handling esm
   if (!fileExtension) {
     filePath += ".js";
     fileExtension = ".js";
@@ -47,16 +46,26 @@ const server = http.createServer((req, res) => {
 
   fs.readFile(path.join(__dirname, filePath), (err, data) => {
     if (err) {
-      res.statusCode = 404;
-      res.end("File not found");
+      res.status(404).send("File not found");
     } else {
-      res.statusCode = 200;
-      res.end(data);
+      res.status(200).send(data);
     }
   });
+}
+
+app.get("/", (req, res) => {
+  serveFile(req, res, "index.html");
 });
 
-server.listen(PORT, () => {
+app.get("/product", (req, res) => {
+  serveFile(req, res, "index.html");
+});
+
+app.get("*", (req, res) => {
+  serveFile(req, res, req.url);
+});
+
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Visit http://localhost:${PORT}`);
 });
