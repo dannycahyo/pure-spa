@@ -26,7 +26,7 @@ function onStateChange(prevState, nextState) {
   }
 }
 
-function setState(newState) {
+export function setState(newState) {
   const prevState = { ...state };
   const updatedState = { ...prevState, ...newState };
   state = updatedState;
@@ -36,12 +36,9 @@ function setState(newState) {
 
 function App() {
   const navigationMenu = Navigation();
-  const homePage = HomePage({
-    onNavigetoProduct: () => setState({ pathURLName: "/product" }),
-  });
+  const homePage = HomePage();
   const productPage = ProductPage({
     productData: state.productData,
-    onNavigateToHomePage: () => setState({ pathURLName: "/" }),
   });
 
   const app = document.createElement("div");

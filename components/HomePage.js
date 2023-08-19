@@ -1,11 +1,12 @@
-const HomePage = (props) => {
+import Link from "./Link";
+
+const HomePage = () => {
   const homeHeading = document.createElement("h1");
   homeHeading.textContent = "Hello From Home Page";
 
-  const productMenuButton = document.createElement("button");
-  productMenuButton.textContent = "Go to Product Page";
-  productMenuButton.addEventListener("click", () => {
-    props.onNavigetoProduct();
+  const productMenuButton = Link({
+    href: "/product",
+    label: "Go to Product Page",
   });
 
   const homePageElement = document.createElement("div");
