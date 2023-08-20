@@ -1,12 +1,16 @@
+import Link from "./Link";
+
 const Navigation = () => {
-  const aboutLink = document.createElement("a");
-  aboutLink.href = "/about";
-  aboutLink.textContent = "About";
+  const aboutLink = Link({
+    href: "/about",
+    label: "About",
+  });
   aboutLink.style.marginRight = "10px";
 
-  const portfolioLink = document.createElement("a");
-  portfolioLink.href = "/portfolio";
-  portfolioLink.textContent = "Portfolio";
+  const portfolioLink = Link({
+    href: "/portfolio",
+    label: "Portfolio",
+  });
 
   const navigationParentElement = document.createElement("nav");
   navigationParentElement.appendChild(aboutLink);
