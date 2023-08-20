@@ -15,6 +15,10 @@ const routes = [
     path: "/portfolio",
     isServerPage: true,
   },
+  {
+    path: "/contact",
+    isServerPage: true,
+  },
 ];
 
 export { routes };

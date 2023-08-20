@@ -54,10 +54,23 @@ function serveFile(req, res, filePath) {
   });
 }
 
-routes.map((route) => {
+app.set("view engine", "ejs");
+app.set("views", __dirname);
+
+routes.forEach((route) => {
   if (route.isServerPage) {
     app.get(route.path, (req, res) => {
-      serveFile(req, res, `pages/${route.path}.html`);
+      const filePath = `views/pages/${route.path}.ejs`;
+
+      fs.access(filePath, fs.constants.R_OK, (err) => {
+        if (!err) {
+          // If the EJS file exists, render it
+          res.render(filePath);
+        } else {
+          // If the EJS file doesn't exist, serve the HTML or any other file
+          serveFile(req, res, `views/pages/${route.path}.html`);
+        }
+      });
     });
   } else {
     app.get(route.path, (req, res) => {

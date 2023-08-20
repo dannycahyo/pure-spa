@@ -11,10 +11,17 @@ const Navigation = () => {
     href: "/portfolio",
     label: "Portfolio",
   });
+  portfolioLink.style.marginRight = "10px";
+
+  const contactLink = Link({
+    href: "/contact",
+    label: "Contact",
+  });
 
   const navigationParentElement = document.createElement("nav");
   navigationParentElement.appendChild(aboutLink);
   navigationParentElement.appendChild(portfolioLink);
+  navigationParentElement.appendChild(contactLink);
   navigationParentElement.style.marginBottom = "10px";
 
   return navigationParentElement;
