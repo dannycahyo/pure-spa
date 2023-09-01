@@ -74,10 +74,13 @@ routes.forEach((route) => {
     });
   } else {
     app.get(route.path, (req, res) => {
-      serveFile(req, res, "index.html");
+      serveFile(req, res, "dist/index__bundle.html");
     });
   }
 });
+
+// Serve static files from the 'dist' directory
+app.use(express.static(path.join(__dirname, "dist")));
 
 app.get("*", (req, res) => {
   serveFile(req, res, req.url);

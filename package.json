@@ -1,7 +1,18 @@
 {
+  "name": "universal-web-apps",
+  "description": "Vanilla SPA & MPA",
   "dependencies": {
     "ejs": "^3.1.9",
     "esm": "^3.2.25",
     "express": "^4.18.2"
+  },
+  "scripts": {
+    "dev": "webpack --mode=development && node app.js",
+    "build": "webpack --mode=production && node app.js"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^5.5.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
   }
 }
