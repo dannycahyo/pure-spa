@@ -31,6 +31,7 @@ Welcome to **Universal Web App**, a web application that seamlessly blends Singl
 ### Usage
 
 1. Start the application:
+<!-- TODO: Update the README of this section -->
 
    ```sh
    node app.js
