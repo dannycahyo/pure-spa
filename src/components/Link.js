@@ -1,5 +1,5 @@
 import { setState } from "../index.js";
-import { routes } from "../routes.js";
+import { routes } from "../../routes.js";
 
 const Link = ({ href, label }) => {
   const currentRoute = routes.find((route) => route.path === href);

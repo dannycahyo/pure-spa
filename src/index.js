@@ -1,6 +1,6 @@
-import HomePage from "./components/HomePage";
+import HomePage from "./screens/HomePage";
+import ProductPage from "./screens/ProductPage";
 import Navigation from "./components/Navigation";
-import ProductPage from "./components/ProductPage";
 
 import { getProductData } from "./fetcher/getProductData";
 

@@ -60,7 +60,7 @@ app.set("views", __dirname);
 routes.forEach((route) => {
   if (route.isServerPage) {
     app.get(route.path, (req, res) => {
-      const filePath = `views/pages/${route.path}.ejs`;
+      const filePath = `src/views/pages/${route.path}.ejs`;
 
       fs.access(filePath, fs.constants.R_OK, (err) => {
         if (!err) {
@@ -68,7 +68,7 @@ routes.forEach((route) => {
           res.render(filePath);
         } else {
           // If the EJS file doesn't exist, serve the HTML or any other file
-          serveFile(req, res, `views/pages/${route.path}.html`);
+          serveFile(req, res, `src/views/pages/${route.path}.html`);
         }
       });
     });
