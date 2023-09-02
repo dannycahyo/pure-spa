@@ -3,8 +3,29 @@ const fs = require("fs");
 const path = require("path");
 import { routes } from "./routes";
 
+const webpack = require("webpack");
+const webpackDevMiddleware = require("webpack-dev-middleware");
+const webpackDevHotMiddleware = require("webpack-hot-middleware");
+
 const app = express();
 const PORT = 3000;
+const webpackConfig = require("./webpack.config.js");
+
+const compiler = webpack(webpackConfig);
+
+app.use(
+  webpackDevMiddleware(compiler, {
+    publicPath: webpackConfig.output.publicPath,
+  }),
+);
+
+app.use(
+  webpackDevHotMiddleware(compiler, {
+    log: false,
+    path: "/__webpack_hmr",
+    heartbeat: 10 * 1000,
+  }),
+);
 
 function serveFile(req, res, filePath) {
   let fileExtension = path.extname(filePath);
