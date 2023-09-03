@@ -3,9 +3,11 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 
 module.exports = {
+  target: "node",
+  mode: "development",
   entry: [
     "webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true",
-    "./src/index.js",
+    "./src/index.ts",
   ],
   output: {
     filename: "index__bundle.js",
@@ -13,10 +15,22 @@ module.exports = {
     clean: true,
     publicPath: "/",
   },
+  resolve: {
+    extensions: [".ts", ".js"],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.ts?$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  devtool: "inline-source-map",
   devServer: {
     hot: true,
   },
-  devtool: "inline-source-map",
   plugins: [
     new HtmlWebpackPlugin({
       template: "index.html",

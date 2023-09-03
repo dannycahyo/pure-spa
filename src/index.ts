@@ -3,15 +3,16 @@ import ProductPage from "./screens/ProductPage";
 import Navigation from "./components/Navigation";
 
 import { getProductData } from "./fetcher/getProductData";
+import type { State } from "./types/State";
 
 const rootElement = document.getElementById("root");
 
-let state = {
+let state: State = {
   pathURLName: undefined,
   productData: [],
 };
 
-function onStateChange(prevState, nextState) {
+function onStateChange(prevState: State, nextState: State) {
   if (prevState.pathURLName !== nextState.pathURLName) {
     window.history.pushState({}, "", nextState.pathURLName);
     if (nextState.pathURLName === "/product") {
@@ -26,7 +27,7 @@ function onStateChange(prevState, nextState) {
   }
 }
 
-export function setState(newState) {
+export function setState(newState: State) {
   const prevState = { ...state };
   const updatedState = { ...prevState, ...newState };
   state = updatedState;
@@ -38,7 +39,7 @@ function App() {
   const navigationMenu = Navigation();
   const homePage = HomePage();
   const productPage = ProductPage({
-    productData: state.productData,
+    productData: state.productData ?? [],
   });
 
   const app = document.createElement("div");
@@ -60,8 +61,8 @@ setState({ pathURLName: window.location.pathname });
 
 function renderElement() {
   const app = App();
-  rootElement.innerHTML = "";
-  rootElement.append(app);
+  rootElement!.innerHTML = "";
+  rootElement!.append(app);
 }
 
 renderElement();

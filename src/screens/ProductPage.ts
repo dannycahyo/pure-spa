@@ -1,6 +1,11 @@
 import Link from "../components/Link";
+import type { Product } from "../types/Product";
 
-const ProductPage = (props) => {
+type ProductPageProps = {
+  productData: Product[];
+};
+
+const ProductPage = ({ productData }: ProductPageProps): HTMLDivElement => {
   const productHeading = document.createElement("h1");
   productHeading.textContent = "Hello From Product Page";
 
@@ -11,8 +16,8 @@ const ProductPage = (props) => {
 
   const productList = document.createElement("ul");
 
-  if (props.productData) {
-    props.productData.forEach((product) => {
+  if (productData) {
+    productData.forEach((product) => {
       const productItem = document.createElement("li");
       productItem.textContent = product.title;
       productList.appendChild(productItem);
