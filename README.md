@@ -28,22 +28,41 @@ Welcome to **Universal Web App**, a web application that seamlessly blends Singl
    npm install
    ```
 
-### Usage
+## Usage
 
-1. Start the application:
-<!-- TODO: Update the README of this section -->
+This project, **Universal Web App**, is designed for learning and experimentation with building web applications using vanilla JavaScript, both as a Single Page Application (SPA) and a Multi-Page Application (MPA). Below are the available scripts for development and production:
 
-   ```sh
-   node app.js
-   ```
+### Development Mode
 
-   This will run the application in development mode. You also can use nodemon if you want to. 
+To run the application in development mode, use the following command:
 
-2. Open your web browser and navigate to `http://localhost:3000` to interact with the SPA.
+```sh
+npm run dev
+```
 
-    And that's it.
+This script does two main things:
 
-## Branches
+1. **Webpack Build (Client-side):** It uses Webpack to bundle your JavaScript and assets in development mode, creating the `index__bundle.js` file in the `dist` folder.
 
-- `main`: Contains the original version of the project without server-side features.
-- `pure-spa`: Contains the client-side application with Single Page Application (SPA) features. Read the README file for the more context.
+2. **Node.js Server (Server-side):** It starts the Node.js server using `node app.js`. The server serves your bundled application and provides server-side routing and rendering.
+
+The development mode includes hot module replacement (HMR) for the client-side, allowing you to see changes in real-time without needing to manually refresh the page.
+
+### Production Build
+
+To create a production-ready build of your application, use the following command:
+
+```sh
+npm run build
+```
+
+This script performs two tasks:
+
+1. **Webpack Build (Client-side):** It uses Webpack to bundle your JavaScript and assets in production mode, optimizing for performance. The optimized files are placed in the `dist` folder.
+
+2. **Node.js Server (Server-side):** Similar to the development mode, it starts the Node.js server using `node app.js`. This server serves your production-ready application.
+
+The production build is suitable for deploying your application to a hosting provider.
+
+Keep in mind that the project uses various dependencies like EJS for templating, Express for server-side routing, and Webpack for bundling. Explore and modify the project as needed for your learning journey and web development experiments.
+
