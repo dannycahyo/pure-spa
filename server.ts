@@ -1,15 +1,15 @@
-const express = require("express");
-const fs = require("fs");
-const path = require("path");
-import { routes } from "./routes";
+import express from "express";
+import fs from "fs";
+import path from "path";
+import { routes } from "./routes.js";
 
-const webpack = require("webpack");
-const webpackDevMiddleware = require("webpack-dev-middleware");
-const webpackDevHotMiddleware = require("webpack-hot-middleware");
+import webpack from "webpack";
+import webpackDevMiddleware from "webpack-dev-middleware";
+import webpackDevHotMiddleware from "webpack-hot-middleware";
+import webpackConfig from "./webpack.config.js";
 
 const app = express();
 const PORT = 3000;
-const webpackConfig = require("./webpack.config.js");
 
 const compiler = webpack(webpackConfig);
 

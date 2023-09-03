@@ -1,8 +1,8 @@
 import Link from "../components/Link";
 
-const HomePage = () => {
+const HomePage = (): HTMLDivElement => {
   const homeHeading = document.createElement("h1");
-  homeHeading.textContent = "Hello From Home Page";
+  homeHeading.textContent = "Hello From Home Page BOSS!";
 
   const productMenuButton = Link({
     href: "/product",
